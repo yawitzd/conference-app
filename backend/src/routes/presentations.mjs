@@ -31,14 +31,17 @@ router.get('/', async ctx => {
   }
 
   const { rows } = await pool.query(`
-    SELECT p.id, p.email, p.presenter_name AS "presenterName", p.company_name AS "companyName", p.title, p.synopsis
+    SELECT p.id, p.email, p.presenter_name AS "presenterName", p.company_name AS "companyName", p.title, p.synopsis, p.status_id AS "statusId"
     FROM presentations p
     JOIN events e ON (p.event_id = e.id)
     JOIN accounts a ON (e.account_id = a.id)
     WHERE a.id = $1
     AND e.id = $2
   `, [ctx.claims.id, eventId])
-  ctx.body = rows;
+  ctx.body = rows.map(p => ({
+    ...p,
+    status: STATUSES.get(p.statusId),
+  }));
 });
 
 router.post('/', async ctx => {
