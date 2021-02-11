@@ -148,7 +148,10 @@ router.delete('/:id', async ctx => {
 });
 
 router.put('/:id', identify, async ctx => {
-  const { name, from, to, description, logoUrl, locationId, version, numberOfPresentations, maximumNumberOfAttendees } = ctx.request.body;
+  let { name, from, to, description, logoUrl, locationId, version, numberOfPresentations, maximumNumberOfAttendees } = ctx.request.body;
+  if (from === '') { from = null; }
+  if (to === '') { to = null; }
+  if (logoUrl === '') { logoUrl = null; }
   let eventRows;
   try {
     const { rows } = await pool.query(`

@@ -153,7 +153,7 @@ router.put('/:id/approved', async ctx => {
   await pool.query(`
     INSERT INTO badges (email, name, company_name, role, event_id)
     VALUES ($1, $2, $3, 'SPEAKER', $4)
-    ON CONFLICT (email)
+    ON CONFLICT (email, event_id)
     DO
     UPDATE SET role = 'SPEAKER'
   `, [email, presenterName, companyName, eventId]);
