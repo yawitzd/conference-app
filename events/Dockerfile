@@ -1,8 +1,8 @@
 FROM node:15.8.0-alpine3.12
 WORKDIR /usr/src/app
 COPY package*.json ./
-RUN ["nvm", "install", "v15.8.0"]
-RUN ["nvm", "use"]
+# RUN ["nvm", "install", "v15.8.0"]
+# RUN ["nvm", "use"]
 RUN ["npm", "install"]
 COPY . .
 
